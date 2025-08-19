@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Responder Actions</title>
+    <h2>
+        <a href="{% url 'responder_dashboard' %}" class="back-link">← Back to Dashboard</a>
+    
+    </h2>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #eef2f3;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #2d3e50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 6px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin-bottom: 15px;
+        }
+
+        .incident-details {
+            background: #f9f9f9;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-left: 4px solid #2d89ef;
+        }
+
+        form {
+            background: #f5f5f5;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 12px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        button {
+            background-color: #2d89ef;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+
+        button:hover {
+            background-color: #1b5fbd;
+        }
+
+        .danger-btn {
+            background-color: #e74c3c;
+        }
+
+        .danger-btn:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Responder Actions</h1>
+    </header>
+
+    <main>
+        <div class="incident-details">
+            <h2>Incident #{{ incident.id }}</h2>
+            <p><strong>Type:</strong> {{ incident.incident_type }}</p>
+            <p><strong>Description:</strong> {{ incident.description }}</p>
+            <p><strong>Device:</strong> {{ incident.device_id }} ({{ incident.device_type }})</p>
+            <p><strong>Location:</strong> {{ incident.device_location }}</p>
+            <p><strong>Neighborhood:</strong> {{ incident.neighborhood }}</p>
+            <p><strong>Severity:</strong> {{ incident.severity }}</p>
+            <p><strong>AI Analysis:</strong> {{ incident.ai_analysis }}</p>
+        </div>
+
+        <!-- Upload new evidence -->
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label>Upload New Evidence:</label>
+            <input type="file" name="new_evidence" required>
+            <button type="submit" name="upload_evidence">Upload</button>
+        </form>
+
+        <!-- Replace AI Analysis -->
+        <form method="post">
+            {% csrf_token %}
+            <label>Replace AI Analysis:</label>
+            <textarea name="manual_analysis" placeholder="Enter your analysis here..."></textarea>
+            <button type="submit" name="replace_ai">Replace Analysis</button>
+        </form>
+
+        <!-- Verify Incident -->
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" name="verify">Verify Incident</button>
+        </form>
+
+        <!-- Delete AI Analysis -->
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="danger-btn" name="delete_ai">Delete AI Analysis</button>
+        </form>
+
+        <!-- Give Final Recommendation -->
+        <form method="post">
+            {% csrf_token %}
+            <label>Final Recommendation:</label>
+            <textarea name="recommendation" placeholder="Enter your recommendation here..."></textarea>
+            <button type="submit" name="final_recommendation">Submit Recommendation</button>
+        </form>
+    </main>
+</body>
+
+</html>     

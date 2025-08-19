@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Incident Details</title>
+    <h2>
+        <a href="/logout/">Logout</a>
+        <a href="{% url 'neighborhood_dashboard' %}" class="back-link">← Back to Dashboard</a>
+    
+    </h2>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+
+        .status {
+            font-weight: bold;
+            padding: 8px 12px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .status.verified {
+            background-color: #27ae60;
+            color: white;
+        }
+
+        .status.pending {
+            background-color: #f39c12;
+            color: white;
+        }
+
+        .severity {
+            font-weight: bold;
+            padding: 6px 10px;
+            border-radius: 4px;
+            color: white;
+        }
+
+        .severity-1 {
+            background-color: #2ecc71;
+        }
+
+        .severity-2 {
+            background-color: #27ae60;
+        }
+
+        .severity-3 {
+            background-color: #f39c12;
+        }
+
+        .severity-4 {
+            background-color: #e67e22;
+        }
+
+        .severity-5 {
+            background-color: #c0392b;
+        }
+
+        img,
+        video,
+        audio {
+            margin-top: 10px;
+            border-radius: 6px;
+            max-width: 100%;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        li {
+            margin-bottom: 20px;
+        }
+
+        a.back-link {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #2980b9;
+            font-weight: bold;
+        }
+
+        a.back-link:hover {
+            text-decoration: underline;
+        }
+
+        pre {
+            background: #ecf0f1;
+            padding: 12px;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Incident Details</h1>
+    </header>
+
+    <main>
+        <div class="card">
+            <h2>{{ incident.incident_type }}</h2>
+            <p><strong>Description:</strong> {{ incident.description }}</p>
+            <p><strong>Reported At:</strong> {{ incident.timestamp }}</p>
+            <p><strong>Location:</strong> {{ incident.device_location }}</p>
+            <p>
+                <strong>Severity:</strong>
+                <span class="severity severity-{{ incident.severity }}">
+                    Level {{ incident.severity }}
+                </span>
+            </p>
+        </div>
+
+        <div class="card">
+            <h2>Status</h2>
+            {% if incident.is_verified %}
+            <p class="status verified">✅ Verified - Responders dispatched</p>
+            <p><em>{{ incident.alert_message }}</em></p>
+            {% else %}
+            <p class="status pending">⏳ Pending verification</p>
+            {% endif %}
+        </div>
+
+        <div class="card">
+            <h2>AI / Manual Analysis</h2>
+            {% if incident.ai_analysis %}
+            <pre>{{ incident.ai_analysis|json_script:"analysis-data" }}</pre>
+            {% else %}
+            <p>No analysis available yet.</p>
+            {% endif %}
+        </div>
+
+        <div class="card">
+            <h2>Evidence</h2>
+            {% if evidences %}
+            <ul>
+                {% for ev in evidences %}
+                <li>
+                    <strong>{{ ev.get_evidence_type_display }} - {{ ev.created_at }}</strong><br>
+                    {% if ev.evidence_type == "IMAGE" %}
+                    <img src="{{ ev.file.url }}" alt="Incident Image">
+                    {% elif ev.evidence_type == "VIDEO" %}
+                    <video controls>
+                        <source src="{{ ev.file.url }}" type="video/mp4">
+                        Your browser does not support video playback.
+                    </video>
+                    {% elif ev.evidence_type == "AUDIO" %}
+                    <audio controls>
+                        <source src="{{ ev.file.url }}" type="audio/mpeg">
+                        Your browser does not support audio playback.
+                    </audio>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>No evidence uploaded.</p>
+            {% endif %}
+        </div>
+
+        <a href="{% url 'neighborhood_dashboard' %}" class="back-link">← Back to Dashboard</a>
+    </main>
+</body>
+
+</html>
+

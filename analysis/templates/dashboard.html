@@ -1,0 +1,464 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <title>SafeHaven Security Analysis</title>
+    <style>
+        :root {
+            --primary-red: #d32f2f;
+            --dark-red: #b71c1c;
+            --light-red: #ff6659;
+            --primary-blue: #1976d2;
+            --dark-blue: #0d47a1;
+            --light-blue: #63a4ff;
+            --gradient-bg: linear-gradient(135deg, var(--primary-red) 0%, var(--primary-blue) 100%);
+            --text-light: #f5f5f5;
+            --text-dark: #212121;
+            --bg-light: #fafafa;
+            --bg-dark: #e0e0e0;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --border-radius: 8px;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            margin: 0;
+            padding: 0;
+        }
+
+        #app {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            color: var(--primary-red);
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--primary-blue);
+            background: var(--gradient-bg);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-size: 2.5rem;
+        }
+
+        h2 {
+            color: var(--dark-blue);
+            margin-top: 30px;
+            padding-left: 10px;
+            border-left: 4px solid var(--primary-red);
+        }
+
+        h3,
+        h4 {
+            color: var(--primary-red);
+        }
+
+        #manual-analysis,
+        #results,
+        #chat-history {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            border-top: 3px solid var(--primary-blue);
+        }
+
+        #prompt-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--bg-dark);
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            resize: vertical;
+            transition: border 0.3s;
+        }
+
+        #prompt-input:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
+        }
+
+        button {
+            background-color: var(--primary-red);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            margin-right: 10px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: var(--shadow);
+        }
+
+        button:hover {
+            background-color: var(--dark-red);
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        #auto-analyze-btn {
+            background-color: var(--primary-blue);
+        }
+
+        #auto-analyze-btn:hover {
+            background-color: var(--dark-blue);
+        }
+
+        #loading {
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: var(--border-radius);
+            margin: 20px 0;
+            box-shadow: var(--shadow);
+        }
+
+        #loading p {
+            color: var(--primary-blue);
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .analysis-result,
+        .history-entry {
+            background-color: var(--bg-light);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-bottom: 15px;
+            border-left: 3px solid var(--primary-red);
+        }
+
+        .ai-response,
+        .history-response {
+            background-color: white;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--bg-dark);
+            margin-top: 10px;
+        }
+
+        .error {
+            background-color: #ffebee;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            border-left: 3px solid var(--primary-red);
+            color: var(--dark-red);
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--primary-blue), transparent);
+            margin: 20px 0;
+        }
+
+        #action-links {
+            margin-top: 30px;
+            text-align: center;
+            color: red;
+        }
+
+        #action-links a {
+            margin: 0 15px;
+            color: red;
+            text-decoration: none;
+        }
+
+
+        #action-links a {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 0 10px;
+            text-decoration: none;
+            font-weight: bold;
+            color: white;
+            background-color: var(--primary-blue);
+            border-radius: var(--border-radius);
+            transition: all 0.3s;
+            box-shadow: var(--shadow);
+        }
+
+        #action-links a:hover {
+            background-color: var(--dark-blue);
+            transform: translateY(-2px);
+        }
+
+        strong {
+            color: var(--primary-red);
+        }
+
+        small {
+            color: #757575;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            #app {
+                padding: 10px;
+            }
+
+            button,
+            #action-links a {
+                display: block;
+                width: 100%;
+                margin: 10px 0;
+            }
+        }
+    </style>
+    <!-- Action Links / Buttons -->
+    <div id="action-links">
+        <a href="/logout/">Logout</a>
+        <a href="{% url 'generate_incident_report' %}" target="_blank">Print Analysis Report</a>
+        <a href="/users/">Settings</a>
+    </div>
+
+</head>
+
+<body>
+    <div id="app">
+        <h1>SafeHaven Security Analysis</h1>
+
+        <!-- Manual Analysis Section -->
+        <div id="manual-analysis">
+            <h2>Manual Analysis</h2>
+            <textarea id="prompt-input"
+                placeholder="Enter your analysis prompt here (leave empty for auto-analysis of recent incidents)"
+                rows="4" cols="80">
+            </textarea>
+            <br><br>
+            <button id="analyze-btn">Ask AI</button>
+            <button id="auto-analyze-btn">Auto-Analyze Recent Incidents</button>
+        </div>
+
+        <!-- Loading Indicator -->
+        <div id="loading" style="display: none;">
+            <p>Analyzing... Please wait.</p>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results">
+            <h2>Analysis Results</h2>
+            <div id="response-container">
+                <p>No analysis performed yet.</p>
+            </div>
+        </div>
+
+        <!-- Chat History -->
+        <div id="chat-history">
+            <h2>Previous Analyses</h2>
+            <div id="history-container">
+                {% if chat_history %}
+                {% for chat in chat_history %}
+                <div class="history-item">
+                    <div class="history-entry">
+                        <h4>Analysis - {{ chat.updated_at|date:"M d, Y H:i" }}</h4>
+                        {% for message in chat.conversation %}
+                        {% if message.user %}
+                        <p><strong>Prompt:</strong> {{ message.user }}</p>
+                        {% endif %}
+                        {% if message.mistral %}
+                        <p><strong>Response:</strong></p>
+                        <div class="history-response">{{ message.mistral|linebreaks }}</div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                    <hr>
+                </div>
+                {% endfor %}
+                {% else %}
+                <p>No previous analyses.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+   
+    <script>
+        class SafeHavenAnalysis {
+            constructor() {
+                this.apiUrl = '{% url "safehaven_analysis" %}';
+                this.init();
+            }
+
+            init() {
+                // Get CSRF token
+                this.csrfToken = this.getCSRFToken();
+
+                // Bind event listeners
+                document.getElementById('analyze-btn').addEventListener('click', () => {
+                    const prompt = document.getElementById('prompt-input').value.trim();
+                    this.performAnalysis(prompt);
+                });
+
+                document.getElementById('auto-analyze-btn').addEventListener('click', () => {
+                    this.performAnalysis(''); // Empty prompt for auto-analysis
+                });
+            }
+
+            getCSRFToken() {
+                // Get from meta tag
+                const csrfMeta = document.querySelector('meta[name="csrf-token"]');
+                if (csrfMeta) {
+                    return csrfMeta.getAttribute('content');
+                }
+
+                // Try to get CSRF token from cookie
+                const cookies = document.cookie.split(';');
+                for (let cookie of cookies) {
+                    const [name, value] = cookie.trim().split('=');
+                    if (name === 'csrftoken') {
+                        return value;
+                    }
+                }
+
+                return null;
+            }
+
+            async performAnalysis(prompt = '') {
+                const loadingDiv = document.getElementById('loading');
+                const resultsContainer = document.getElementById('response-container');
+                const analyzeBtn = document.getElementById('analyze-btn');
+                const autoAnalyzeBtn = document.getElementById('auto-analyze-btn');
+
+                // Show loading state
+                loadingDiv.style.display = 'block';
+                analyzeBtn.disabled = true;
+                autoAnalyzeBtn.disabled = true;
+                resultsContainer.innerHTML = '<p>Analyzing...</p>';
+
+                try {
+                    const response = await fetch(this.apiUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': this.csrfToken || '',
+                        },
+                        credentials: 'same-origin',
+                        body: JSON.stringify({
+                            prompt: prompt
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        if (data.status === 'success') {
+                            this.displayResults(data.response, prompt);
+                            this.addToHistory(prompt, data.response);
+
+                            // Clear the input field after successful analysis
+                            document.getElementById('prompt-input').value = '';
+                        } else {
+                            this.displayError(data.message);
+                        }
+                    } else {
+                        this.displayError(data.error || 'Analysis failed');
+                    }
+
+                } catch (error) {
+                    console.error('Analysis error:', error);
+                    this.displayError('Network error occurred. Please try again.');
+                } finally {
+                    // Hide loading state
+                    loadingDiv.style.display = 'none';
+                    analyzeBtn.disabled = false;
+                    autoAnalyzeBtn.disabled = false;
+                }
+            }
+
+            displayResults(response, prompt) {
+                const container = document.getElementById('response-container');
+                const analysisType = prompt ? 'Manual Analysis' : 'Auto-Analysis of Recent Incidents';
+
+                container.innerHTML = `
+                    <div class="analysis-result">
+                        <h3>${analysisType}</h3>
+                        ${prompt ? `<p><strong>Prompt:</strong> ${this.escapeHtml(prompt)}</p>` : ''}
+                        <p><strong>AI Analysis:</strong></p>
+                        <div class="ai-response">${this.formatResponse(response)}</div>
+                        <p><small>Analysis completed at: ${new Date().toLocaleString()}</small></p>
+                    </div>
+                `;
+            }
+
+            displayError(error) {
+                const container = document.getElementById('response-container');
+                container.innerHTML = `
+                    <div class="error">
+                        <p><strong>Response:</strong> ${this.escapeHtml(error)}</p>
+                        <p><small>Feedback given at: ${new Date().toLocaleString()}</small></p>
+                    </div>
+                `;
+            }
+
+            addToHistory(prompt, response) {
+                const historyContainer = document.getElementById('history-container');
+                const analysisType = prompt ? 'Manual' : 'Auto';
+
+                // If this is the first entry, clear the "No previous analyses" message
+                if (historyContainer.innerHTML.includes('No previous analyses')) {
+                    historyContainer.innerHTML = '';
+                }
+
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                historyItem.innerHTML = `
+                    <div class="history-entry">
+                        <h4>${analysisType} Analysis - ${new Date().toLocaleString()}</h4>
+                        ${prompt ? `<p><strong>Prompt:</strong> ${this.escapeHtml(prompt)}</p>` : ''}
+                        <p><strong>Response:</strong></p>
+                        <div class="history-response">${this.formatResponse(response)}</div>
+                    </div>
+                    <hr>
+                `;
+
+                // Add to the top of history
+                historyContainer.insertBefore(historyItem, historyContainer.firstChild);
+            }
+
+            formatResponse(response) {
+                // Basic formatting for the AI response
+                return this.escapeHtml(response)
+                    .replace(/\n/g, '<br>')
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\*(.*?)\*/g, '<em>$1</em>');
+            }
+
+            escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+        }
+
+        // Initialize the application when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new SafeHavenAnalysis();
+        });
+    </script>
+</body>
+
+</html>

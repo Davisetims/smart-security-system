@@ -1,0 +1,477 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeHaven - Smart Neighborhood Security System</title>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-shield-alt"></i>
+                <span>SafeHaven</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#how-it-works" class="nav-link">How It Works</a>
+                <a href="#community" class="nav-link">Community</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+            <div class="nav-auth">
+                <a href="/login/" class="btn-login">Sign In</a>
+                <a href="/login/" class="btn-register">Get Started</a>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-bolt"></i>
+                    <span>Next-Generation Security</span>
+                </div>
+                <h1 class="hero-title">
+                    Your Neighborhood's
+                    <span class="highlight">Smart Guardian</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Experience the future of community safety with our AI-powered security system.
+                    Real-time monitoring, instant alerts, and community-driven protection that never sleeps.
+                </p>
+                <div class="hero-actions">
+                    <a href="#" class="btn-primary">
+                        <i class="fas fa-rocket"></i>
+                        Start Protecting Now
+                    </a>
+                    <a href="#demo" class="btn-secondary">
+                        <i class="fas fa-play"></i>
+                        Watch Demo
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-number">10K+</div>
+                        <div class="stat-label">Protected Homes</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">95%</div>
+                        <div class="stat-label">Crime Reduction</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Active Monitoring</div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="security-hub">
+                    <div class="hub-center">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="sensor-node node-1">
+                        <i class="fas fa-video"></i>
+                        <div class="pulse"></div>
+                    </div>
+                    <div class="sensor-node node-2">
+                        <i class="fas fa-mobile-alt"></i>
+                        <div class="pulse"></div>
+                    </div>
+                    <div class="sensor-node node-3">
+                        <i class="fas fa-bell"></i>
+                        <div class="pulse"></div>
+                    </div>
+                    <div class="sensor-node node-4">
+                        <i class="fas fa-users"></i>
+                        <div class="pulse"></div>
+                    </div>
+                    <div class="connection-line line-1"></div>
+                    <div class="connection-line line-2"></div>
+                    <div class="connection-line line-3"></div>
+                    <div class="connection-line line-4"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Story Section -->
+    <section class="story">
+        <div class="story-container">
+            <div class="story-content">
+                <h2 class="story-title">The Story Behind SafeHaven</h2>
+                <div class="story-timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>The Vision</h3>
+                            <p>Born from Hannah Mwangi's research in April 2025, SafeHaven emerged from a simple yet powerful
+                                idea:
+                                What if every neighborhood could have its own intelligent guardian?</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>The Innovation</h3>
+                            <p>By combining IoT sensors, AI analytics, and community crowdsourcing, we created a system
+                                that
+                                doesn't just react to crime—it prevents it.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>The Impact</h3>
+                            <p>Today, thousands of families sleep peacefully knowing their neighborhood is protected by
+                                technology that truly cares about their safety.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="features-container">
+            <div class="section-header">
+                <h2 class="section-title">Intelligent Security Features</h2>
+                <p class="section-subtitle">
+                    Advanced technology meets community wisdom to create unprecedented neighborhood safety
+                </p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h3 class="feature-title">AI-Powered Surveillance</h3>
+                    <p class="feature-description">
+                        Smart cameras with computer vision detect suspicious activities instantly,
+                        learning patterns to prevent incidents before they happen.
+                    </p>
+                    <div class="feature-highlight">Real-time Analysis</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <h3 class="feature-title">IoT Sensor Network</h3>
+                    <p class="feature-description">
+                        Environmental sensors monitor sound, motion, and air quality, creating an
+                        invisible safety net across your entire neighborhood.
+                    </p>
+                    <div class="feature-highlight">24/7 Monitoring</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="feature-title">Community Crowdsourcing</h3>
+                    <p class="feature-description">
+                        Neighbors become heroes through our mobile app, reporting incidents and
+                        sharing safety information in real-time.
+                    </p>
+                    <div class="feature-highlight">Community Driven</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="feature-title">Instant Emergency Response</h3>
+                    <p class="feature-description">
+                        Automated alerts to emergency services and community members ensure
+                        help arrives when it's needed most.
+                    </p>
+                    <div class="feature-highlight">Lightning Fast</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="feature-title">Predictive Analytics</h3>
+                    <p class="feature-description">
+                        Machine learning algorithms analyze patterns to predict and prevent
+                        potential security threats before they occur.
+                    </p>
+                    <div class="feature-highlight">Future-Ready</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Mobile Command Center</h3>
+                    <p class="feature-description">
+                        Your smartphone becomes a security command center with push notifications,
+                        incident reporting, and community communication.
+                    </p>
+                    <div class="feature-highlight">Always Connected</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works" class="how-it-works">
+        <div class="how-container">
+            <div class="section-header">
+                <h2 class="section-title">How SafeHaven Protects Your Community</h2>
+                <p class="section-subtitle">
+                    Three powerful layers of protection working together seamlessly
+                </p>
+            </div>
+            <div class="process-flow">
+                <div class="process-step">
+                    <div class="step-number">01</div>
+                    <div class="step-icon">
+                        <i class="fas fa-satellite-dish"></i>
+                    </div>
+                    <h3 class="step-title">Data Acquisition</h3>
+                    <p class="step-description">
+                        IoT sensors, smart cameras, and community reports continuously gather
+                        security data from every corner of your neighborhood.
+                    </p>
+                    <div class="step-features">
+                        <span class="step-tag">Motion Detection</span>
+                        <span class="step-tag">Sound Analysis</span>
+                        <span class="step-tag">Crowd Reports</span>
+                    </div>
+                </div>
+                <div class="process-arrow">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">02</div>
+                    <div class="step-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 class="step-title">AI Processing</h3>
+                    <p class="step-description">
+                        Advanced AI algorithms analyze patterns, identify threats, and make
+                        intelligent decisions about potential security risks.
+                    </p>
+                    <div class="step-features">
+                        <span class="step-tag">Pattern Recognition</span>
+                        <span class="step-tag">Threat Assessment</span>
+                        <span class="step-tag">Predictive Analysis</span>
+                    </div>
+                </div>
+                <div class="process-arrow">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">03</div>
+                    <div class="step-icon">
+                        <i class="fas fa-bullhorn"></i>
+                    </div>
+                    <h3 class="step-title">Smart Response</h3>
+                    <p class="step-description">
+                        Instant alerts to authorities and community members ensure rapid response
+                        and coordinated action when threats are detected.
+                    </p>
+                    <div class="step-features">
+                        <span class="step-tag">Emergency Alerts</span>
+                        <span class="step-tag">Community Notifications</span>
+                        <span class="step-tag">Authority Dispatch</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Impact -->
+    <section id="community" class="community">
+        <div class="community-container">
+            <div class="section-header">
+                <h2 class="section-title">Real Stories, Real Impact</h2>
+                <p class="section-subtitle">
+                    See how SafeHaven is transforming neighborhoods across the globe
+                </p>
+            </div>
+            <div class="impact-grid">
+                <div class="impact-story">
+                    <div class="story-image">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h3 class="story-title">Greenfield Estates</h3>
+                    <p class="story-content">
+                        "Since installing SafeHaven, break-ins have dropped by 87%. Our kids play outside
+                        until sunset again, and we sleep peacefully knowing our community watches over us."
+                    </p>
+                    <div class="story-author">
+                        <strong>Sarah Mitchell</strong> - Community Leader
+                    </div>
+                    <div class="story-stats">
+                        <div class="stat-item">
+                            <span class="stat-value">87%</span>
+                            <span class="stat-desc">Crime Reduction</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">3 min</span>
+                            <span class="stat-desc">Response Time</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="impact-story">
+                    <div class="story-image">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h3 class="story-title">Riverside Apartments</h3>
+                    <p class="story-content">
+                        "The AI predicted a potential incident in our parking garage and alerted security
+                        before anything happened. It's like having a crystal ball for safety."
+                    </p>
+                    <div class="story-author">
+                        <strong>Michael Torres</strong> - Property Manager
+                    </div>
+                    <div class="story-stats">
+                        <div class="stat-item">
+                            <span class="stat-value">15</span>
+                            <span class="stat-desc">Incidents Prevented</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">98%</span>
+                            <span class="stat-desc">Resident Satisfaction</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="impact-story">
+                    <div class="story-image">
+                        <i class="fas fa-tree"></i>
+                    </div>
+                    <h3 class="story-title">Oakwood Village</h3>
+                    <p class="story-content">
+                        "The community app brought our neighbors together. We're not just protected by
+                        technology—we're united as a community that cares for each other."
+                    </p>
+                    <div class="story-author">
+                        <strong>Jennifer Lee</strong> - Resident
+                    </div>
+                    <div class="story-stats">
+                        <div class="stat-item">
+                            <span class="stat-value">240</span>
+                            <span class="stat-desc">Active Users</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">92%</span>
+                            <span class="stat-desc">Community Engagement</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta">
+        <div class="cta-container">
+            <div class="cta-content">
+                <div class="cta-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h2 class="cta-title">Ready to Transform Your Neighborhood?</h2>
+                <p class="cta-subtitle">
+                    Join thousands of communities already protected by SafeHaven.
+                    Start your journey to a safer tomorrow today.
+                </p>
+                <div class="cta-actions">
+                    <a href="#" class="btn-cta-primary">
+                        <i class="fas fa-rocket"></i>
+                        Get Started Free
+                    </a>
+                    <a href="#contact" class="btn-cta-secondary">
+                        <i class="fas fa-phone"></i>
+                        Talk to Expert
+                    </a>
+                </div>
+                <div class="cta-guarantee">
+                    <i class="fas fa-check-circle"></i>
+                    <span>30-day money-back guarantee • No setup fees • 24/7 support</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>SafeHaven</span>
+                    </div>
+                    <p class="footer-description">
+                        Smart Neighborhood Security System - Protecting communities
+                        through intelligent technology and community collaboration.
+                    </p>
+                    <div class="footer-social">
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4 class="footer-title">Product</h4>
+                        <a href="#features" class="footer-link">Features</a>
+                        <a href="#" class="footer-link">Pricing</a>
+                        <a href="#" class="footer-link">API</a>
+                        <a href="#" class="footer-link">Documentation</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4 class="footer-title">Company</h4>
+                        <a href="#" class="footer-link">About Us</a>
+                        <a href="#" class="footer-link">Careers</a>
+                        <a href="#" class="footer-link">Press</a>
+                        <a href="#" class="footer-link">Blog</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4 class="footer-title">Support</h4>
+                        <a href="#contact" class="footer-link">Contact</a>
+                        <a href="#" class="footer-link">Help Center</a>
+                        <a href="#" class="footer-link">Status</a>
+                        <a href="#" class="footer-link">Security</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-copyright">
+                    <p>&copy; 2025 Smart Neighborhood Security System. All rights reserved.</p>
+                </div>
+                <div class="footer-legal">
+                    <a href="#" class="legal-link">Privacy Policy</a>
+                    <a href="#" class="legal-link">Terms of Service</a>
+                    <a href="#" class="legal-link">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{% static 'js/landing.js' %}"></script>
+</body>
+
+</html>
