@@ -427,11 +427,6 @@ def neighborhood_incident_detail(request, incident_id):
     """Show detailed incident info for neighborhood users."""
     incident = get_object_or_404(Incident, id=incident_id)
 
-   
-    # if incident.neighborhood != user_neighborhood:
-    #     messages.error(request, "You are not authorized to view this incident.")
-    #     return redirect("neighborhood_dashboard")
-
     evidences = incident.evidences.all()
 
     return render(request, "neighborhood_incident_detail.html", {
