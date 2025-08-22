@@ -424,10 +424,12 @@ def responder_actions(request, incident_id):
 
 @login_required
 def neighborhood_incident_detail(request, incident_id):
-    """Show detailed incident info for neighborhood users."""
+    """Show detailed incident info (testing: no restrictions)."""
+    # Allow fetching incident by ID only (no neighborhood/user restriction)
     incident = get_object_or_404(Incident, id=incident_id)
 
-    evidences = incident.evidences.all()
+    # For testing, load ALL evidence, not filtered
+    evidences = Incident.objects.all().order_by('-created_at')
 
     return render(request, "neighborhood_incident_detail.html", {
         "incident": incident,
