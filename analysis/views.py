@@ -252,8 +252,6 @@ def safehaven_analysis_page(request):
 def home(request):
     return render(request, 'home.html')
 
-def neighborhood_dashboard(request):
-    return render(request, 'neighborhood_dashboard.html')
 
 
 def login_view(request):
@@ -423,15 +421,30 @@ def responder_actions(request, incident_id):
     })
 
 @login_required
+def neighborhood_dashboard(request):
+    """Show all incidents for neighborhood dashboard (testing: no restrictions)."""
+    incidents = Incident.objects.all().order_by('-created_at')
+
+    return render(request, "neighborhood_dashboard.html", {
+        "incidents": incidents
+    })
+
+
+@login_required
 def neighborhood_incident_detail(request, incident_id):
-    """Show detailed incident info (testing: no restrictions)."""
-    # Allow fetching incident by ID only (no neighborhood/user restriction)
+    """
+    Show detailed incident info for neighborhood users.
+    Neighborhood can only view (no editing/deleting/uploading).
+    """
+    # Fetch incident
     incident = get_object_or_404(Incident, id=incident_id)
 
-    # For testing, load ALL evidence, not filtered
+    # For testing: show ALL incidents as 'evidence' (later you can filter properly)
     evidences = Incident.objects.all().order_by('-created_at')
 
-    return render(request, "neighborhood_incident_detail.html", {
+    context = {
         "incident": incident,
-        "evidences": evidences
-    })
+        "evidences": evidences,
+    }
+
+    return render(request, "neighborhood_incident_detail.html", context)

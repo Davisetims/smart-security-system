@@ -1,139 +1,110 @@
-    <!DOCTYPE html>
-    <html>
+<!DOCTYPE html>
+<html lang="en">
 
-    <head>
-        <title>Neighborhood Dashboard</title>
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                background-color: #f4f6f8;
-                margin: 0;
-                padding: 0;
-            }
+<head>
+    <meta charset="UTF-8">
+    <title>Neighborhood Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fa;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
 
-            header {
-                background-color: #2c3e50;
-                color: white;
-                padding: 15px;
-                text-align: center;
-            }
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 20px;
+        }
 
-            main {
-                padding: 20px;
-            }
+        h1 {
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 30px;
+            color: #2c3e50;
+        }
 
-            table {
-                width: 100%;
-                border-collapse: collapse;
-                background-color: white;
-                border-radius: 6px;
-                overflow: hidden;
-            }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
 
-            th,
-            td {
-                padding: 12px;
-                border-bottom: 1px solid #ccc;
-                text-align: left;
-            }
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 18px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            transition: transform 0.2s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
 
-            th {
-                background-color: #34495e;
-                color: white;
-            }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+        }
 
-            a.button {
-                display: inline-block;
-                padding: 6px 12px;
-                background-color: #2980b9;
-                color: white;
-                text-decoration: none;
-                border-radius: 4px;
-            }
+        .card h3 {
+            margin: 0 0 10px;
+            font-size: 18px;
+            color: #34495e;
+        }
 
-            a.button:hover {
-                background-color: #1c5985;
-            }
+        .card p {
+            margin: 6px 0;
+            font-size: 14px;
+            line-height: 1.4;
+            color: #555;
+        }
 
-            h2 {
-                color: #2c3e50;
-            }
+        .status {
+            margin-top: 12px;
+            padding: 8px 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: bold;
+        }
 
-            form {
-                margin: 15px 0;
-            }
+        .status.verified {
+            background: #eaf9f1;
+            color: #27ae60;
+        }
 
-            label {
-                display: block;
-                margin: 8px 0 4px;
-                font-weight: bold;
-            }
+        .status.pending {
+            background: #fff5e5;
+            color: #e67e22;
+        }
+    </style>
+</head>
 
-            select {
-                padding: 8px;
-                border: 1px solid #ccc;
-                border-radius: 4px;
-            }
-        </style>
-    </head>
+<body>
+    <div class="container">
+        <h1>Neighborhood Incidents</h1>
 
-    <body>
-        <header>
-            <h1>Neighborhood Dashboard - {{ neighborhood }}</h1>
-            <h2>
-                <a href="/logout/">Logout</a>
-            
-            </h2>
+        <div class="grid">
+            {% for incident in incidents %}
+            <a href="{% url 'neighborhood_incident_detail' incident.id %}" class="card">
+                <h3>{{ incident.incident_type }}</h3>
+                <p><strong>Reported:</strong> {{ incident.timestamp }}</p>
+                <p>{{ incident.description|truncatewords:15 }}</p>
 
-        </header>
-
-        <main>
-            <!-- Filter by status -->
-            <form method="get">
-                <label for="status">Filter by Status:</label>
-                <select name="status" id="status" onchange="this.form.submit()">
-                    <option value="">-- All --</option>
-                    <option value="verified" {% if request.GET.status == 'verified' %}selected{% endif %}>Verified</option>
-                    <option value="pending" {% if request.GET.status == 'pending' %}selected{% endif %}>Pending</option>
-                </select>
-            </form>
-
-            {% if incidents %}
-            <table>
-                <tr>
-                    <th>Type</th>
-                    <th>Description</th>
-                    <th>Reported At</th>
-                    <th>Severity</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-
-                {% for incident in incidents %}
-                <tr>
-                    <td>{{ incident.incident_type }}</td>
-                    <td>{{ incident.description|truncatechars:50 }}</td>
-                    <td>{{ incident.timestamp }}</td>
-                    <td>{{ incident.severity }}</td>
-                    <td>
-                        {% if incident.is_verified %}
-                        ✅ Verified - Responders dispatched
-                        <br>
-                        <small>{{ incident.alert_message }}</small>
-                        {% else %}
-                        ⏳ Pending verification
-                        {% endif %}
-                    </td>
-                    <td>
-                        <a href="{% url 'neighborhood_incident_detail' incident.id %}" class="button">View Details</a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </table>
-            {% else %}
+                <div class="status {% if incident.is_verified %}verified{% else %}pending{% endif %}">
+                    {% if incident.is_verified %}
+                    ✅ Verified
+                    {% else %}
+                    ⏳ Pending
+                    {% endif %}
+                </div>
+            </a>
+            {% empty %}
             <p>No incidents reported in your neighborhood yet.</p>
-            {% endif %}
-        </main>
-    </body>
+            {% endfor %}
+        </div>
+    </div>
+</body>
 
-    </html>
+</html>
